@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #EEE7DA;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+.container {
+    min-width: 600px;
+    min-height: 900px;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.search {
+    position: relative;
+    /* Added position: relative */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input {
+    width: 300px;
+    height: 30px;
+    margin-left: 20px;
+    padding: 5px 0;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    border-bottom: 1px solid black;
+}
+
+input:focus {
+    outline: none;
+}

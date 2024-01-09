@@ -5,28 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/index.css">
-    <title>Four Squares</title>
+    <title>新北等公車</title>
 </head>
 
 <body>
+    <h2 id="title" onload="onTitleLoad()">新北等公車2024</h2>
     <div class="container">
         <div class="row">
-            <div class="square" id="square-1">
+            <div class="square square-hidden" id="square-1" onclick="redirect('../html/routeQuery.html')">
                 <h1>路線搜尋</h1>
             </div>
-            <div class="square" id="square-2">
+            <div class="square square-hidden" id="square-2">
                 <h1>附近站牌</h1>
             </div>
         </div>
         <div class="row">
-            <div class="square" id="square-3">
+            <div class="square square-hidden" id="square-3">
                 <h1>路線規劃</h1>
             </div>
-            <div class="square" id="square-4">
+            <div class="square square-hidden" id="square-4">
                 <h1>常用站牌</h1>
             </div>
         </div>
     </div>
+
+    <script src="../js/index.js"></script>
 </body>
 
 </html>

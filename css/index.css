@@ -5,7 +5,18 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to bottom right, #EEE7DA, #F2F1EB);
+    background: #EEE7DA;
+}
+
+#title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out forwards, moveUp 1s ease-out 1s forwards;
+    z-index: 1;
 }
 
 .container {
@@ -30,6 +41,11 @@ body {
     align-items: center;
     border-radius: 10px;
     transition: transform 0.7s ease-in-out;
+}
+
+.square-hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 #square-1 {
@@ -65,7 +81,7 @@ body {
 }
 
 @keyframes scaleUp {
-    from {
+    0% {
         opacity: 0;
         width: 100px;
         height: 100px;
@@ -73,10 +89,33 @@ body {
         color: rgba(25, 25, 25, 0.2);
     }
 
-    to {
-        width: 300px;
-        height: 300px;
+    100% {
+        width: 250px;
+        height: 250px;
         font-size: 1rem;
         color: rgba(25, 25, 25, 0.8);
     }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+@keyframes moveUp {
+    0% {
+        top: 50%;
+    }
+
+    100% {
+        top: 10%;
+    }
+
 }
