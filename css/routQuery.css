@@ -6,32 +6,34 @@ body {
     align-items: center;
     height: 100vh;
     background: #EEE7DA;
+    font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+    line-height: 1.5;
 }
 
 h1 {
+    font-family: "Helvetica", "Arial", sans-serif;
     font-size: 2rem;
 }
 
+p {
+    font-family: "LiHei Pro", "黑體-繁", "微軟正黑體", sans-serif;
+    padding: 0;
+    margin: 0;
+
+}
+
 .container {
-    min-width: 600px;
-    min-height: 900px;
+    width: 600px;
+    min-height: 700px;
     border: 1px solid black;
     border-radius: 10px;
     text-align: center;
 }
 
-.search {
-    position: relative;
-    /* Added position: relative */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 input {
-    width: 300px;
+    width: 500px;
     height: 30px;
-    margin-left: 20px;
+    text-align: center;
     padding: 5px 0;
     background-color: transparent;
     border: none;
@@ -41,4 +43,52 @@ input {
 
 input:focus {
     outline: none;
+}
+
+#results-container {
+    width: 500px;
+    height: 600px;
+    overflow-x: auto;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.result-item {
+    margin: 0 auto;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    padding: 10px 0;
+    background-color: white;
+    font-size: 1.3rem;
+}
+
+.result-item span{
+    letter-spacing: 5px;
+}
+
+.result-item p{
+    letter-spacing: 10px;
+}
+
+.result-item:hover {
+    background-color: #f0f0f0;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #EEE7DA;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 6px;
+    border: 3px solid #555;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
 }
