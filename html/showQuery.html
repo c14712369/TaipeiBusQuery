@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/showQuery.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAc4PvYRaetwbNbiiL-KSO3Ot5zG4ozY5U&callback=initMap"
+      async
+      defer
+    ></script>
+    <link rel="stylesheet" href="../css/showQuery.css" />
     <title>路線查詢結果</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="toRoute">
-        </div>
-        <div class="fromRoute">
-        </div>
+      <div class="toRoute"></div>
+      <div class="fromRoute"></div>
     </div>
-
+    <div id="map" style="height: 400px"></div>
     <script src="../js/showQuery.js"></script>
-</body>
-
+  </body>
 </html>

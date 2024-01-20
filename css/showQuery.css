@@ -1,58 +1,63 @@
 body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    background: #EEE7DA;
-    font-family: "Helvetica", "Arial", "LiHei Pro", "黑體-繁", "微軟正黑體", sans-serif;
-    line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: #eee7da;
+  font-family: "Helvetica", "Arial", "LiHei Pro", "黑體-繁", "微軟正黑體",
+    sans-serif;
+  line-height: 1.5;
 }
 
 .container {
-    margin: auto;
-    padding: 30px 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 200px;
+  margin: auto;
+  padding: 30px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 200px;
 }
 
 .container p {
-    padding-left: 10px;
-    font-size: 18px;
+  padding-left: 10px;
+  font-size: 18px;
 }
 
-.Title{
-    text-align: center;
-    border: 1px solid black;
-    margin: auto;
-    width: 150px;
+.Title {
+  text-align: center;
+  border: 1px solid black;
+  margin: auto;
+  width: 150px;
 }
 
-.bus-stopCon{
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
-    border-bottom: 1px solid black;
-    width: 200px;
+.bus-stopCon {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  border-bottom: 1px solid black;
+  width: 250px;
 }
 
 .bus-stop {
-    width: 15px;
-    height: 15px;
-    background-color: #ccc;
-    border-radius: 50%;
-    color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    font-size: 8px;
-    text-align: center;
+  width: 15px;
+  height: 15px;
+  background-color: #ccc;
+  border-radius: 50%;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 8px;
+  text-align: center;
 }
 
 .line {
-    width: 2px;
-    height: 50px;
-    background-color: black;
-    margin-top: 65px;
+  width: 2px;
+  height: 50px;
+  background-color: black;
+  margin-top: 65px;
+}
+
+.bus-stopCon button {
+  margin-left: 10px;
 }

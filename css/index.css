@@ -1,121 +1,120 @@
 body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: #EEE7DA;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #eee7da;
 }
 
 #title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 36px;
-    opacity: 0;
-    animation: fadeInUp 1s ease-out forwards, moveUp 1s ease-out 1s forwards;
-    z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards, moveUp 1s ease-out 1s forwards;
+  z-index: 1;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .row {
-    display: flex;
+  display: flex;
 }
 
 .square {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(to bottom right, #739072, #4F6F52);
-    margin: 0 5px 5px 0;
-    animation: scaleUp 1.5s ease-in-out forwards;
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    transition: transform 0.7s ease-in-out;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(to bottom right, #739072, #4f6f52);
+  margin: 0 5px 5px 0;
+  animation: scaleUp 1.5s ease-in-out forwards;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  transition: transform 0.7s ease-in-out;
 }
 
 .square-hidden {
-    opacity: 0;
-    pointer-events: none;
+  opacity: 0;
+  pointer-events: none;
 }
 
 #square-1 {
-    border-radius: 50% 0 0 0;
+  border-radius: 50% 0 0 0;
 }
 
 #square-1:hover {
-    transform: scale(1.1) translate(-25px, -25px);
+  transform: scale(1.1) translate(-25px, -25px);
 }
 
 #square-2 {
-    border-radius: 0 50% 0 0;
+  border-radius: 0 50% 0 0;
 }
 
 #square-2:hover {
-    transform: scale(1.1) translate(25px, -25px);
+  transform: scale(1.1) translate(25px, -25px);
 }
 
 #square-3 {
-    border-radius: 0 0 0 50%;
+  border-radius: 0 0 0 50%;
 }
 
 #square-3:hover {
-    transform: scale(1.1) translate(-25px, 25px);
+  transform: scale(1.1) translate(-25px, 25px);
 }
 
 #square-4 {
-    border-radius: 0 0 50% 0;
+  border-radius: 0 0 50% 0;
 }
 
 #square-4:hover {
-    transform: scale(1.1) translate(25px, 25px);
+  transform: scale(1.1) translate(25px, 25px);
 }
 
 @keyframes scaleUp {
-    0% {
-        opacity: 0;
-        width: 100px;
-        height: 100px;
-        font-size: 0.2rem;
-        color: rgba(25, 25, 25, 0.2);
-    }
+  0% {
+    opacity: 0;
+    width: 100px;
+    height: 100px;
+    font-size: 0.2rem;
+    color: rgba(25, 25, 25, 0.2);
+  }
 
-    100% {
-        width: 250px;
-        height: 250px;
-        font-size: 1rem;
-        color: rgba(25, 25, 25, 0.8);
-    }
+  100% {
+    width: 200px;
+    height: 200px;
+    font-size: 1rem;
+    color: rgba(25, 25, 25, 0.8);
+  }
 }
 
 @keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(1);
-    }
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
 
-    100% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.2);
-    }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
 }
 
 @keyframes moveUp {
-    0% {
-        top: 50%;
-    }
+  0% {
+    top: 50%;
+  }
 
-    100% {
-        top: 10%;
-    }
-
+  100% {
+    top: 5%;
+  }
 }
