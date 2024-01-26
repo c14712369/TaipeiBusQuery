@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background: #eee7da;
+  background: #778da9;
   font-family: "Helvetica", "Arial", "LiHei Pro", "黑體-繁", "微軟正黑體",
     sans-serif;
   line-height: 1.5;
@@ -24,9 +24,13 @@ body {
 
 .Title {
   text-align: center;
-  border: 1px solid black;
   margin: auto;
   width: 150px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  padding: 0.5px 15px;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  background-color: #e0e1dd;
 }
 
 .bus-stopCon {
@@ -34,12 +38,16 @@ body {
   align-items: center;
   padding-left: 20px;
   border-bottom: 1px solid black;
-  width: 250px;
+  width: 375px;
+}
+
+.bus-stopCon p{
+  font-weight: 700;
 }
 
 .bus-stop {
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   background-color: #ccc;
   border-radius: 50%;
   color: black;
@@ -49,15 +57,21 @@ body {
   white-space: nowrap;
   font-size: 8px;
   text-align: center;
+  white-space: normal;
 }
 
 .line {
-  width: 2px;
+  width: 1px;
   height: 50px;
-  background-color: black;
-  margin-top: 65px;
+  background-color: #0d1b2a;
+  margin-top: 70px;
 }
 
 .bus-stopCon button {
-  margin-left: 10px;
+  margin-left: auto;
+  padding: 5px 20px;
+  background-color: #1b263b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
 }

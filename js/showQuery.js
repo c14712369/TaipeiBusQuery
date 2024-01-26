@@ -1,9 +1,16 @@
+// 從routeQuery帶回來之資料
 let receivedData = sessionStorage.getItem("RouteData");
 let route = sessionStorage.getItem("RouteName");
 let RouteCity = sessionStorage.getItem("RouteCity");
 let DestinationStop = sessionStorage.getItem("DestinationStop");
 let DepartureStop = sessionStorage.getItem("DepartureStop");
-let RouteRealTimeData;
+let estimatedArrivalTime;
+
+// 去、回程車站站牌的座標
+let to
+let from
+
+// API所需參數
 let apiID = "c14712369-dfd8e505-1843-44f2";
 let apiKey = "a6900643-59bf-41a3-b142-d3b4bc99c575";
 let options = {
@@ -19,143 +26,151 @@ let options = {
 };
 
 if (receivedData) {
-  let parsedData = JSON.parse(receivedData);
-
   // 把去、回程資料各自抓出來
-  let to = parsedData[0].Stops;
-  let from = parsedData[1].Stops;
+  let parsedData = JSON.parse(receivedData);
+  to = parsedData[0].Stops;
+  from = parsedData[1].Stops;
 
-  // 去程
-  const toRoute = document.querySelector(".toRoute");
-  const toTitle = document.createElement("div");
-  toTitle.className = "Title";
-  toTitle.innerHTML = `<p>往${DestinationStop}</p>`;
-  toRoute.appendChild(toTitle);
-
-  // 抓取當前每台路線公車的座標
-  getAuthorizationHeader().then(() => {
-    for (let i = 0; i < to.length; i++) {
-      //算出每個站牌，距離每個當前路線公車的時間，找出最短的那台並顯示到站時間
-      let stopCoords = [
-        to[i].StopPosition.PositionLat,
-        to[i].StopPosition.PositionLon,
-      ];
-
-      initMap(stopCoords);
-
-      // 處理HTML
-      if (i < to.length - 1) {
-        const busStop = document.createElement("div");
-        busStop.className = "bus-stopCon";
-        busStop.innerHTML = `<div class="bus-stop"><div class="line"></div></div><p>${to[i].StopName.Zh_tw}</p><button>123</button>`;
-        toRoute.appendChild(busStop);
-      } else {
-        const busStop = document.createElement("div");
-        busStop.className = "bus-stopCon";
-        busStop.innerHTML = `<div class="bus-stop"><div></div></div><p>${to[i].StopName.Zh_tw}</p><button>123</button>`;
-        toRoute.appendChild(busStop);
-      }
-    }
-
-    // 回程
-    const fromRoute = document.querySelector(".fromRoute");
-    const fromTitle = document.createElement("div");
-    fromTitle.className = "Title";
-    fromTitle.innerHTML = `<p>往${DepartureStop}</p>`;
-    fromRoute.appendChild(fromTitle);
-
-    for (let i = 0; i < from.length; i++) {
-      if (i < from.length - 1) {
-        const busStop = document.createElement("div");
-        busStop.className = "bus-stopCon";
-        busStop.innerHTML = `<div class="bus-stop"><div class="line"></div></div><p>${from[i].StopName.Zh_tw}</p><button>123</button>`;
-        fromRoute.appendChild(busStop);
-      } else {
-        const busStop = document.createElement("div");
-        busStop.className = "bus-stopCon";
-        busStop.innerHTML = `<div class="bus-stop"><div></div></div><p>${from[i].StopName.Zh_tw}</p><button>123</button>`;
-        fromRoute.appendChild(busStop);
-      }
-    }
-  })
-} else {
-  console.log("查無資料！");
+  // 抓取當前路線公車的預計到站時間
+  getAuthorizationHeader()
 }
 
-async function getAuthorizationHeader() {
+// 獲取TDX Token，呼叫預計到站時間API
+function getAuthorizationHeader() {
   try {
-    const parameters = {
+    let parameters = {
       grant_type: "client_credentials",
       client_id: "c14712369-dfd8e505-1843-44f2",
       client_secret: "a6900643-59bf-41a3-b142-d3b4bc99c575",
     };
 
-    const authUrl =
+    let authUrl =
       "https://tdx.transportdata.tw/auth/realms/TDXConnect/protocol/openid-connect/token";
 
-    const response = await fetch(authUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+    $.ajax({
+      type: "POST",
+      url: authUrl,
+      crossDomain: true,
+      dataType: 'JSON',
+      data: parameters,
+      async: false,
+      success: function (data) {
+        token = data.access_token
+        getEstimatedArrivalTime(token)
       },
-      body: new URLSearchParams(parameters),
+      error: function (xhr, textStatus, thrownError) {
+      }
     });
-
-    const data = await response.json();
-    token = data.access_token;
-
-    await getApiResponse(); // 授權成功後呼叫 getApiResponse
   } catch (error) {
     console.error("授權失敗：", error);
   }
 }
 
-async function getApiResponse() {
-  if (token) {
-    const realTimeApiUrl = `https://tdx.transportdata.tw/api/basic/v2/Bus/RealTimeByFrequency/City/${RouteCity}/${route}?%24top=30&%24format=JSON`;
-
-    try {
-      const response = await fetch(realTimeApiUrl, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-
-      const data = await response.json();
-      RouteRealTimeData = data.map((item) => ({
-        Lat: item.BusPosition.PositionLat,
-        Lon: item.BusPosition.PositionLon,
-      }));
-    } catch (error) {
-      console.error("API 請求失敗：", error);
+// 預計到站時間API
+function getEstimatedArrivalTime(token) {
+  $.ajax({
+    type: 'GET',
+    url: `https://tdx.transportdata.tw/api/basic/v2/Bus/EstimatedTimeOfArrival/City/${RouteCity}/${route}?&%24format=JSON`,
+    headers: {
+      "Authorization": "Bearer " + token,
+    },
+    async: false,
+    success: function (Data) {
+      console.log(Data)
+      processTo(Data)
+      processFrom(Data)
+    },
+    error: function (xhr, textStatus, thrownError) {
+      console.log('Error:', thrownError);
     }
-  } else {
-    console.error("請先取得授權 token 再進行 API 請求。");
+  });
+}
+
+// 處理去程HTML
+function processTo(estimatedArrivalTime) {
+  // 處理去程
+  let toRoute = document.querySelector(".toRoute");
+  let toTitle = document.createElement("div");
+  toTitle.className = "Title";
+  toTitle.innerHTML = `<p>往${DestinationStop}</p>`;
+  toRoute.appendChild(toTitle);
+
+  for (let i = 0; i < to.length; i++) {
+    // 找出公車預估到站時間
+    let stopData = estimatedArrivalTime.filter((bus) => bus.StopName.Zh_tw === to[i].StopName.Zh_tw);
+    // 轉換成分鐘
+    let arrivedTime = Math.round(stopData[0].EstimateTime / 60);
+    console.log(stopData)
+    console.log(arrivedTime)
+
+    // 渲染到站時間
+    let busArrivedText;
+
+    if (arrivedTime > 1) {
+      busArrivedText = `${arrivedTime} 分鐘到站`;
+    } else if (arrivedTime > 0 && arrivedTime < 1) {
+      busArrivedText = '即將到站';
+    } else if (arrivedTime === 0) {
+      busArrivedText = '即將到站'; // 或者你可以設定為其他文字，視情況而定
+    } else {
+      busArrivedText = '未發車';
+    }
+
+    // 處理HTML
+    if (i < to.length - 1) {
+      let busStop = document.createElement("div");
+      busStop.className = "bus-stopCon";
+      busStop.innerHTML = `<div class="bus-stop"><div class="line"></div></div><p>${to[i].StopName.Zh_tw}</p><button>${busArrivedText}</button>`;
+      toRoute.appendChild(busStop);
+    } else {
+      let busStop = document.createElement("div");
+      busStop.className = "bus-stopCon";
+      busStop.innerHTML = `<div class="bus-stop"><div></div></div><p>${to[i].StopName.Zh_tw}</p><button>${busArrivedText}</button>`;
+      toRoute.appendChild(busStop);
+    }
   }
 }
 
-async function initMap(startCoords) {
-  await getAuthorizationHeader();
+// 處理回程HTML
+function processFrom(estimatedArrivalTime) {
+  // 處理回程
+  let fromRoute = document.querySelector(".fromRoute");
+  let fromTitle = document.createElement("div");
+  fromTitle.className = "Title";
+  fromTitle.innerHTML = `<p>往${DepartureStop}</p>`;
+  fromRoute.appendChild(fromTitle);
 
-  var directionsService = new google.maps.DirectionsService();
-  var directionsRenderer = new google.maps.DirectionsRenderer();
+  for (let i = 0; i < from.length; i++) {
+    // 找出公車預估到站時間
+    let stopData = estimatedArrivalTime.filter((bus) => bus.StopName.Zh_tw === from[i].StopName.Zh_tw);
+    // 轉換成分鐘
+    let arrivedTime = Math.round(stopData[0].EstimateTime / 60);
+    console.log(stopData)
+    console.log(arrivedTime)
 
-  for (const [index, value] of RouteRealTimeData.entries()) {
-    let request = {
-      origin: { lat: startCoords[0], lng: startCoords[1] },
-      destination: { lat: index[value], lng: index[value + 1] },
-      travelMode: "DRIVING",
-    };
+    // 渲染到站時間
+    let busArrivedText;
 
-    directionsService.route(request, function (result, status) {
-      if (status == "OK") {
-        directionsRenderer.setDirections(result);
-        let drivingTime = result.routes[0].legs[0].duration.text;
-        console.log("大約抵達時間：", drivingTime);
-      } else {
-        console.error("搜尋失敗：", status);
-      }
-    });
+    if (arrivedTime > 1) {
+      busArrivedText = `${arrivedTime} 分鐘到站`;
+    } else if (arrivedTime > 0 && arrivedTime < 1) {
+      busArrivedText = '即將到站';
+    } else if (arrivedTime === 0) {
+      busArrivedText = '即將到站'; // 或者你可以設定為其他文字，視情況而定
+    } else {
+      busArrivedText = '未發車';
+    }
+
+    if (i < from.length - 1) {
+      let busStop = document.createElement("div");
+      busStop.className = "bus-stopCon";
+      busStop.innerHTML = `<div class="bus-stop"><div class="line"></div></div><p>${from[i].StopName.Zh_tw}</p><button>${busArrivedText}</button>`;
+      fromRoute.appendChild(busStop);
+    } else {
+      let busStop = document.createElement("div");
+      busStop.className = "bus-stopCon";
+      busStop.innerHTML = `<div class="bus-stop"><div></div></div><p>${from[i].StopName.Zh_tw}</p><button>${busArrivedText}</button>`;
+      fromRoute.appendChild(busStop);
+    }
   }
 }
